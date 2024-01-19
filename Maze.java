@@ -3,7 +3,8 @@ import java.util.ArrayList;
 public class Maze {
     public static void main(String[] args) {
         path("",3,3);
-        System.out.println(retPath("",3,3));
+      //  System.out.println(retPath("",3,3));
+        System.out.println(retPathDiagonal("",3,3));
     }
 
     static int count(int r , int c){
@@ -41,4 +42,23 @@ public class Maze {
         }
         return list;
     }
+    static ArrayList<String> retPathDiagonal(String p , int r , int c){
+        if (r==1 && c==1){
+            ArrayList<String> list = new ArrayList<>();
+            list.add(p);
+            return list;
+        }
+        ArrayList<String> list = new ArrayList<>();
+        if (r>1&&c>1){
+            list.addAll(retPathDiagonal(p+'D',r-1,c-1));
+        }
+        if (r>1){
+            list.addAll(retPathDiagonal(p+'V',r-1,c));
+        }
+        if (c>1){
+            list.addAll(retPathDiagonal(p+'H',r,c-1));
+        }
+        return list;
+    }
+
 }

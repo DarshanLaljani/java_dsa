@@ -12,6 +12,8 @@ public class LLoperations {
         list.display();
         list.deleteFirst();
         list.deleteLast();
+        list.delete(2);
         list.display();
+        
     }
 }

@@ -8,8 +8,9 @@ public class DLLoperations {
         list1.insertFirstDD(24);
         list1.insertFirstDD(43);
         list1.insertionLast(99);
+//        list1.display();
+        list1.insert(4,65);
         list1.display();
-
     }
 
 }

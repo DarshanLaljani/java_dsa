@@ -1,6 +1,9 @@
 package LinkedList;
 
 public class MergeSortLL {
+    private ListNode head;
+    private ListNode tail;
+
     class ListNode {
         private int value;
         private ListNode next;
@@ -75,18 +78,28 @@ public class MergeSortLL {
     public static void main(String[] args) {
         MergeSortLL mergeSortLL = new MergeSortLL();
 
-        // Sample Input
-        ListNode head = mergeSortLL.createLinkedList(new int[]{3, 2, 4, 1, 5});
-        System.out.println("Original Linked List:");
-        mergeSortLL.printList(head);
+        // Sample Input for Merge Sort
+        ListNode headMergeSort = mergeSortLL.createLinkedList(new int[]{3, 2, 4, 1, 5});
+        System.out.println("Original Linked List (Merge Sort):");
+        mergeSortLL.printList(headMergeSort);
 
-        // Sorting the linked list
-        ListNode sortedHead = mergeSortLL.sortList(head);
+        // Sorting the linked list using Merge Sort
+        ListNode sortedHeadMergeSort = mergeSortLL.sortList(headMergeSort);
+        System.out.println("\nSorted Linked List (Merge Sort):");
+        mergeSortLL.printList(sortedHeadMergeSort);
 
-        // Printing the sorted linked list
-        System.out.println("\nSorted Linked List:");
-        mergeSortLL.printList(sortedHead);
+        // Sample Input for Bubble Sort
+        ListNode headBubbleSort = mergeSortLL.createLinkedList(new int[]{3, 2, 4, 1, 5});
+        System.out.println("\nOriginal Linked List (Bubble Sort):");
+        mergeSortLL.printList(headBubbleSort);
+
+        // Sorting the linked list using Bubble Sort
+        mergeSortLL.head = headBubbleSort; // Set the head of the list for sorting
+        mergeSortLL.bubbleSort();
+        System.out.println("\nSorted Linked List (Bubble Sort):");
+        mergeSortLL.printList(mergeSortLL.head);
     }
+
 
     private ListNode createLinkedList(int[] values) {
         ListNode dummy = new ListNode(); // Dummy node without a value
@@ -96,9 +109,60 @@ public class MergeSortLL {
             dummy.next = newNode;
         }
         return dummy.next; // Return the next node after the dummy node
+    }public void bubbleSort(){
+        int size = getSize()-1;
+        bubbleSort(size,0);
+    }
+    private int getSize() {
+        int size = 0;
+        ListNode current = head;
+        while (current != null) {
+            size++;
+            current = current.next;
+        }
+        return size;
+    }
+    private void bubbleSort(int row , int col){
+        if (row == 0){
+            return;
+        }
+        if (col<row){
+            ListNode first = get(col);
+            ListNode second = get(col+1);
+
+            if (first.value > second.value){
+                if (first == head){
+                    head = second;
+                    first.next = second.next;
+                    second.next = first;
+                    if (second.next == null)
+                        tail = second; // Update tail if necessary
+                } else if (second == tail) {
+                    ListNode prev = get(col-1);
+                    prev.next = second;
+                    tail = first;
+                    first.next = null;
+                    second.next = tail;
+                } else {
+                    ListNode prev = get(col-1);
+                    prev.next = second;
+                    first.next = second.next;
+                    second.next = first;
+                }
+            }
+            bubbleSort(row, col + 1);
+        } else {
+            bubbleSort(row - 1, 0);
+        }
     }
 
-
+    public ListNode get(int index){
+        ListNode node = head;
+        for (int i = 0; i < index; i++) {
+            node = node.next;
+        }
+        return node;
+    }
 
     // Helper method to print a linked list
     private void printList(ListNode head) {

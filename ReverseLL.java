@@ -3,6 +3,7 @@ package LinkedList;
 public class ReverseLL {
     Node head;
     Node tail;
+    private int size;
 
     class Node {
         int value;
@@ -48,7 +49,66 @@ public class ReverseLL {
         tail = node;
         tail.next = null;
     }
+    private int getSize() {
+        int size = 0;
+        Node current = head;
+        while (current != null) {
+            size++;
+            current = current.next;
+        }
+        return size;
+    }
+    public Node reverseList(Node node) {
+        if (head == null) {
+            return head;
+        }
+        Node prev = null;
+        Node present = head;
+        Node next = present.next;
+        while (present != null) {
+            present.next = prev;
+            prev = present;
+            present = next;
+            if (next != null) {
+                next = next.next;
+            }
+        }
+        head = prev; // Update the head to the last node
+        return head;
+    }
+    public Node reverseBetween(Node head , int left , int right){
+        if (left==right){
+            return head;
+        }
+        //skip the first left -1 node
+        Node current = head;
+        Node prev = null;
+        for (int i = 0; current !=null && i < left-1; i++) {
+            prev = current;
+            current=current.next;
+        }
+        Node last = prev;
+        Node newEnd = current;
+        Node next = current.next;
+        //reverse between left and right
+        for (int i = 0; current!=null && i < right-left+1; i++) {
 
+
+           current.next = prev;
+            prev = current;
+            current = next;
+            if (next != null) {
+                next = next.next;
+            }
+        }
+        if (last!=null){
+            last.next=prev;
+        }else{
+            head=prev;
+        }
+        newEnd.next=current;
+        return head;
+    }
     public static void main(String[] args) {
         ReverseLL list = new ReverseLL();
 
@@ -64,10 +124,14 @@ public class ReverseLL {
         list.printList();
 
         // Reverse the linked list
-        list.reverse(list.head);
-
+//        list.reverse(list.head);
+        list.reverseList(list.head);
         // Print the reversed linked list
         System.out.println("\nReversed Linked List:");
         list.printList();
+        list.reverseBetween(list.head, 2,4);
+        System.out.println("\nReversed between 2 and 4:");
+        list.printList();
     }
+
 }
